@@ -1,32 +1,34 @@
 const foodSchema = require('../models/food.model');
+const { uploadFile } = require('../services/storage.service');
+const { v4:uuid } = require('uuid');
 
 const createFoodItem = async (req, res) => {
-    // try {
-    //     const { name, description, price, category } = req.body;
-    //     if (!name || !description || !price || !category) {
-    //         return res.status(400).json({ message: 'All fields are required' });
-    //     }
+    
+    const fileUploadResult = await uploadFile(req.file.buffer, uuid());
 
-    //     const newFoodItem = new foodSchema({
-    //         name,
-    //         description,
-    //         price,
-    //         category,
-    //         partnerId: req.user.id // Assuming req.user is set by auth middleware
-    //     });
+    const foodItem = {
+        name: req.body.name,
+        description: req.body.description,
+        video: fileUploadResult.url,
+        foodPartner: req.foodPartner._id,
+    };
 
-    //     await newFoodItem.save();
-    //     res.status(201).json({ message: 'Food item created successfully', foodItem: newFoodItem });
-    // } catch (error) {
-    //     console.error('Error creating food item:', error);
-    //     res.status(500).json({ message: 'Server error' });
-    // }
+    res.status(201).json({
+        food: foodItem,
+        message: 'Food item created successfully'
+    });
+}
 
-    console.log(req.foodPartner);
+const getFoodItems = async (req, res) => {
+    const foodItems = await foodSchema.find({ foodPartner: req.foodPartner._id });
 
-    res.send('Create Food Item');
+    res.status(200).json({
+        foodItems,
+        message: 'Food items fetched successfully'
+    });
 }
 
 module.exports = {
-    createFoodItem
+    createFoodItem,
+    getFoodItems
 }
