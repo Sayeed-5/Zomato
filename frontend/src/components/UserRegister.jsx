@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 
 const FormInput = ({ id, type, placeholder, label }) => (
     <div>
@@ -26,7 +27,20 @@ const FormButton = ({ children }) => (
 );
 
 const UserRegister = ({ setView }) => {
-    const handleSubmit = (e) => e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const name = e.target.name.value
+        const email = e.target.email.value
+        const password = e.target.password.value
+
+        axios.post("http://localhost:3000/api/auth/user/register", {
+            name,
+            email,
+            password
+        })
+        
+    }
     return (
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg transition-colors">
         <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">Create a User Account</h1>
