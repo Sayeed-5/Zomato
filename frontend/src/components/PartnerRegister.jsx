@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const FormInput = ({ id, type, placeholder, label }) => (
     <div>
@@ -31,8 +31,10 @@ const PartnerRegister = ({ setView }) => {
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg transition-colors">
         <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">Create a Partner Account</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <FormInput id="restaurantName" type="text" label="Restaurant Name" placeholder="The Tasty Spoon" />
-          <FormInput id="email" type="email" label="Business Email" placeholder="restaurant@business.com" />
+          <FormInput id="fullName" type="text" label="Full Name" placeholder="John Doe" />
+          <FormInput id="email" type="email" label="Business Email" placeholder="partner@business.com" />
+          <FormInput id="phone" type="tel" label="Phone Number" placeholder="+91 12345 67890" />
+          <FormInput id="address" type="text" label="Business Address" placeholder="123 Main St, Anytown" />
           <FormInput id="password" type="password" label="Password" placeholder="••••••••" />
           <FormButton>Create partner account</FormButton>
           <p className="text-sm text-center font-light text-gray-500 dark:text-gray-400">
@@ -50,6 +52,6 @@ const PartnerRegister = ({ setView }) => {
         </form>
       </div>
     );
-};
+  };
 
 export default PartnerRegister
