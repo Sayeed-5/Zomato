@@ -12,7 +12,7 @@ const createFoodItem = async (req, res) => {
         video: fileUploadResult.url,
         foodPartner: req.foodPartner._id,
     };
-
+ 
     res.status(201).json({
         food: foodItem,
         message: 'Food item created successfully'

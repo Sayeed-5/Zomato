@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 const FormInput = ({ id, type, placeholder, label }) => (
     <div>
@@ -26,7 +28,22 @@ const FormButton = ({ children }) => (
 );
 
 const PartnerLogin = ({ setView }) => {
-    const handleSubmit = (e) => e.preventDefault();
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const email = e.target.email.value
+    const password = e.target.password.value
+
+    const response = await axios.post("http://localhost:3000/api/auth/partner/login", {
+      email,
+      password
+    },{ withCredentials: true})
+
+    console.log(response.data)
+
+    navigate('/create-food');
+  }
     return (
       <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg transition-colors">
         <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">Partner Login</h1>
