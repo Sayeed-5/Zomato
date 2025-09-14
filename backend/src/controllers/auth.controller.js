@@ -25,7 +25,7 @@ const register = async (req, res) => {
         id: user._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie('Token', token)
+    res.cookie('UserToken', token)
 
     res.status(201).json({
         message: 'User registered successfully',
@@ -60,7 +60,7 @@ const login = async (req, res) => {
         id: user._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie('Token', token)
+    res.cookie('UserToken', token)
 
     res.status(200).json({
         message: 'User logged in successfully',
@@ -73,7 +73,7 @@ const login = async (req, res) => {
 }
 
 const logout = (req, res) => {
-    res.clearCookie("Token");
+    res.clearCookie("UserToken");
     res.status(200).json({ message: "User logged out successfully" });
 }
 
@@ -102,7 +102,7 @@ const partnerRegister = async (req, res) => {
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie('Token', token)
+    res.cookie('PartnerToken', token)
 
     res.status(201).json({
         message: 'Food Partner registered successfully',
@@ -137,7 +137,7 @@ const partnerLogin = async (req, res) => {
         id: user._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie('Token', token)
+    res.cookie('PartnerToken', token)
 
     res.status(200).json({
         message: 'Food Partner logged in successfully',
@@ -152,7 +152,7 @@ const partnerLogin = async (req, res) => {
 }
 
 const partnerLogout = (req, res) => {
-    res.clearCookie("Token");
+    res.clearCookie("PartnerToken");
     res.status(200).json({ message: "Food Partner logged out successfully" });
 }
 

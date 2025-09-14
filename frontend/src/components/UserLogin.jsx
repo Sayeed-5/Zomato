@@ -37,8 +37,8 @@ const UserLogin = ({ setView }) => {
       const password = e.target.password.value
 
       const response = await axios.post("http://localhost:3000/api/auth/user/login", {
-            email,
-            password
+        email,
+        password
       },{ withCredentials: true})
 
       console.log(response.data)

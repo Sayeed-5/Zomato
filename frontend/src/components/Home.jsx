@@ -1,41 +1,12 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 
-// --- Mock Data ---
-// In a real application, you would fetch this data from an API.
-const videosData = [
-  {
-    id: 1,
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-walking-on-a-paved-road-in-the-countryside-47029-large.mp4',
-    description: 'Explore our latest autumn collection. Handcrafted with the finest materials for a cozy and stylish season. Limited stock available!',
-    storeUrl: '#',
-  },
-  {
-    id: 2,
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-surfer-running-on-the-beach-47035-large.mp4',
-    description: 'Catch the wave with our new swimwear line. Designed for maximum comfort and performance. Dive in now!',
-    storeUrl: '#',
-  },
-  {
-    id: 3,
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-a-woman-works-out-in-the-rain-47040-large.mp4',
-    description: 'Unleash your potential with our high-performance activewear. This is a much longer description designed to test the two-line truncation feature to ensure it works correctly and doesn\'t overflow the container.',
-    storeUrl: '#',
-  },
-  {
-    id: 4,
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-mountain-bikers-riding-on-a-rocky-trail-47041-large.mp4',
-    description: 'Adventure awaits. Gear up with our all-terrain equipment.',
-    storeUrl: '#',
-  },
-];
-
-// --- Reel Video Component ---
 // This component renders a single video reel with its overlay content.
 const Reel = ({ videoUrl, description, storeUrl }) => {
-  const handleVisitStore = () => {
-    // In a real app, this would navigate to the storeUrl
-    console.log(`Navigating to store: ${storeUrl}`);
-  };
+  // const handleVisitStore = () => {
+  //   console.log(`Navigating to store: ${storeUrl}`);
+  // };
 
   return (
     // Each reel is a full-screen container with snap-start for scrolling
@@ -48,6 +19,7 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
         muted
         loop
         playsInline // Important for iOS devices
+        preload='metadata'
       ></video>
 
       {/* Overlay for description and button */}
@@ -59,7 +31,7 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
         
         {/* "Visit Store" button */}
         <button
-          onClick={handleVisitStore}
+        
           className="w-full bg-white text-black font-bold text-center py-3 rounded-lg text-md hover:bg-gray-200 transition-colors duration-300"
         >
           Visit Store
@@ -70,11 +42,21 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
 };
 
 // --- Main App Component ---
-// This is the root component that sets up the scroll container and maps the videos.
 function Home() {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/food",{ withCredentials: true})
+    .then((res)=>{
+      const foodData = res.data.foodItems;
+      setVideos(Array.isArray(foodData) ? foodData : [foodData]);
+    })
+  },[])
+
+  console.log(videos);
+
   return (
     <>
-      {/* We need to inject this style for the line-clamp utility to work */}
       <style>{`
         .line-clamp-2 {
           display: -webkit-box;
@@ -86,12 +68,11 @@ function Home() {
       
       {/* Main container for the reels feed */}
       <main className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory">
-        {videosData.map((video) => (
+        {videos.map((item) => (
           <Reel
-            key={video.id}
-            videoUrl={video.videoUrl}
-            description={video.description}
-            storeUrl={video.storeUrl}
+            key={item._id}
+            videoUrl={item.video}
+            description={item.description}
           />
         ))}
       </main>

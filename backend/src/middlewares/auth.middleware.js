@@ -4,16 +4,16 @@ const jwt = require('jsonwebtoken');
 
 const authPartnerMiddleware = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
-        console.log(req.cookies.token);
+        const token = req.cookies.PartnerToken;
+        
         if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
+            return res.status(401).json({ message: 'Partner Please Login First' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const foodPartner = await FoodPartner.findById(decoded.id);
         if (!foodPartner) {
-            return res.status(401).json({ message: 'Invalid token' });
+            return res.status(401).json({ message: 'Invalid token partner not present' });
         }
 
         req.foodPartner = foodPartner;
@@ -25,15 +25,15 @@ const authPartnerMiddleware = async (req, res, next) => {
 
 const authUserMiddleware = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.UserToken;
         if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
+            return res.status(401).json({ message: 'User Please Login First' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(decoded.id);
         if (!user) {
-            return res.status(401).json({ message: 'Invalid token' });
+            return res.status(401).json({ message: 'Invalid token user not present' });
         }
 
         req.user = user;
