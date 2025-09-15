@@ -17,7 +17,7 @@ function AppRoutes() {
                 <Route path="/auth" element={<Auth/>}/>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/create-food" element={<CreateFood/>}/>
-                <Route path="/food/partner-profile" element={<FoodPartnerProfile/>}/>
+                <Route path="/partner-profile/:id" element={<FoodPartnerProfile/>}/>
                 {/* <Route path="/user/register" element={<UserRegister setView={setView}/> }/>
                 <Route path="/user/login" element={<UserLogin setView={setView} />} />
                 <Route path="/food-partner/register" element={<PartnerRegister setView={setView} />} />

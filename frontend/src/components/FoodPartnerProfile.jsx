@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-// --- Mock Data for the Food Partner ---
-// In a real application, you would fetch this data from an API.
-const foodPartnerData = {
-  name: "The Gourmet Kitchen",
-  address: "123 Flavor Street, Foodie City, 110011",
-  profileImageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  stats: {
-    dishes: 85,
-    customersServed: "12k+",
-  },
-  reels: [
-    { id: 1, thumbnailUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", views: "1.2M" },
-    { id: 2, thumbnailUrl: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "890k" },
-    { id: 3, thumbnailUrl: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", views: "2.5M" },
-    { id: 4, thumbnailUrl: "https://images.unsplash.com/photo-1484723050470-65e2b1680244?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "500k" },
-    { id: 5, thumbnailUrl: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "3.1M" },
-    { id: 6, thumbnailUrl: "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "750k" },
-    { id: 7, thumbnailUrl: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "1.8M" },
-    { id: 8, thumbnailUrl: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "920k" },
-    { id: 9, thumbnailUrl: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDd8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "4.2M" },
-  ],
-};
+
+// const foodPartnerData = {
+//   name: "The Gourmet Kitchen",
+//   address: "123 Flavor Street, Foodie City, 110011",
+//   profileImageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//   stats: {
+//     dishes: 85,
+//     customersServed: "12k+",
+//   },
+//   reels: [
+//     { id: 1, thumbnailUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", views: "1.2M" },
+//     { id: 2, thumbnailUrl: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "890k" },
+//     { id: 3, thumbnailUrl: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D", views: "2.5M" },
+//     { id: 4, thumbnailUrl: "https://images.unsplash.com/photo-1484723050470-65e2b1680244?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "500k" },
+//     { id: 5, thumbnailUrl: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "3.1M" },
+//     { id: 6, thumbnailUrl: "https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "750k" },
+//     { id: 7, thumbnailUrl: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "1.8M" },
+//     { id: 8, thumbnailUrl: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "920k" },
+//     { id: 9, thumbnailUrl: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=500&auto=format&fit=crop&q=60&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDd8fGZvb2R8ZW58MHx8MHx8fDA%3D", views: "4.2M" },
+//   ],
+// };
 
 
 // --- SVG Icon Components ---
@@ -48,8 +49,22 @@ const PlayIcon = () => (
 
 // --- Main Profile Component ---
 
-export default function App() {
-  const { name, address, profileImageUrl, stats, reels } = foodPartnerData;
+function FoodPartnerProfile() {
+  const { id } = useParams();
+  const [profile, setProfile] = useState(null);
+  // const { name, address, profileImageUrl, stats, reels } = foodPartnerData;
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/partner-profile/${id}`,{ withCredentials: true })
+      .then((response) => {
+        setProfile(response.data.foodPartner);
+      })
+      .catch((error) => {
+        console.error('Error fetching profile data:', error);
+      });
+  }, [id]);
+
+  console.log(profile);
 
   return (
     <div className="bg-slate-900 min-h-screen font-sans text-gray-200">
@@ -58,30 +73,30 @@ export default function App() {
         {/* Profile Header */}
         <header className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left space-y-4 sm:space-y-0 sm:space-x-8 md:space-x-12 mb-8">
           <div className="flex-shrink-0">
-            <img
+            {/* <img
               className="h-28 w-28 sm:h-36 sm:w-36 rounded-full object-cover border-4 border-slate-700 shadow-lg"
               src={profileImageUrl}
               alt={`${name}'s profile`}
-            />
+            /> */}
           </div>
 
           <div className="flex flex-col justify-center flex-grow">
-            <h1 className="text-3xl sm:text-4xl font-bold text-white">{name}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white">{profile?.name}</h1>
             <p className="text-slate-400 mt-1.5 flex items-center justify-center sm:justify-start">
-              <LocationIcon /> {address}
+              <LocationIcon /> {profile?.address}
             </p>
             
             {/* Stats Section */}
-            <div className="flex justify-center sm:justify-start space-x-8 mt-6">
+            {/* <div className="flex justify-center sm:justify-start space-x-8 mt-6">
               <div className="text-center">
-                <p className="text-2xl font-bold text-white">{stats.dishes}</p>
+                <p className="text-2xl font-bold text-white"></p>
                 <p className="text-sm text-slate-400">Dishes</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-white">{stats.customersServed}</p>
                 <p className="text-sm text-slate-400">Customers Served</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </header>
 
@@ -94,7 +109,7 @@ export default function App() {
         </div>
 
         {/* Reels Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-1.5 sm:gap-4">
+        {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-1.5 sm:gap-4">
           {reels.map((reel) => (
             <div key={reel.id} className="relative group aspect-[9/16] cursor-pointer rounded-lg overflow-hidden">
               <img
@@ -115,9 +130,10 @@ export default function App() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
 }
 
+export default FoodPartnerProfile;

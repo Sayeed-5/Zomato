@@ -34,8 +34,11 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
         
           className="w-full bg-white text-black font-bold text-center py-3 rounded-lg text-md hover:bg-gray-200 transition-colors duration-300"
         >
-          Visit Store
+          <Link className="reel-btn" to={storeUrl} aria-label="Visit store">Visit store</Link>
         </button>
+        
+          
+
       </div>
     </div>
   );
@@ -53,7 +56,7 @@ function Home() {
     })
   },[])
 
-  console.log(videos);
+  // console.log(videos);
 
   return (
     <>
@@ -73,6 +76,7 @@ function Home() {
             key={item._id}
             videoUrl={item.video}
             description={item.description}
+            storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
           />
         ))}
       </main>
