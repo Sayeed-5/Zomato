@@ -50,7 +50,10 @@ const likeFoodItem = async (req, res) => {
 }
 
 const saveFoodItem = async (req, res) => {
-    // Implementation for saving food item
+    const { foodId } = req.body;
+    const user = req.user;
+
+    
 }
 
 module.exports = {
