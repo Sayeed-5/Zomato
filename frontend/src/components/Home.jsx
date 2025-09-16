@@ -2,7 +2,6 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import ActionBar from './ActionBar';
-import BottomNav from './BottomNav';
 
 // This component renders a single video reel with its overlay content.
 const Reel = ({ videoUrl, description, storeUrl }) => {
@@ -86,9 +85,6 @@ function Home() {
             ))}
           </main>
         </div>
-
-        {/* bottom nav */}
-        <BottomNav />
       </div>
     </>
   );
