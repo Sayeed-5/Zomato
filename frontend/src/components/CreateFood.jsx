@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const VideoUploadIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-10 w-10 text-gray-500 mb-2"
+    className="h-10 w-10 text-gray-300 mb-2"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -59,86 +59,86 @@ function CreateFood() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center font-sans p-4">
-      <div className="w-full max-w-sm bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
-        {/* Form Header */}
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">Add New Food</h1>
-          <p className="text-gray-400 mt-1">Upload a video and details.</p>
-        </div>
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-900 via-gray-900/95 to-black text-white">
+      <div className="mx-auto w-full max-w-md px-4 pt-5 pb-24">
+        <div className="rounded-2xl shadow-xl backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/10 p-5 space-y-6">
+          {/* Form Header */}
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Add New Food</h1>
+            <p className="text-white/70 mt-1 text-sm">Upload a video and details.</p>
+          </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Video Input */}
-          <div>
-            <label htmlFor="video-upload" className="block text-sm font-medium text-gray-300 mb-2">
-              Food Video
-            </label>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer hover:border-indigo-500 transition-colors duration-300">
-              <div className="space-y-1 text-center">
-                {videoPreview ? (
-                  <video src={videoPreview} controls className="max-h-60 rounded-lg w-3xl mx-auto"></video>
-                ) : (
-                  <>
-                    <VideoUploadIcon />
-                    <div className="flex text-sm text-gray-400">
-                      <p className="pl-1">Upload a video</p>
-                    </div>
-                    <p className="text-xs text-gray-500">MP4, MOV, AVI up to 50MB</p>
-                  </>
-                )}
-                <input
-                  id="video-upload"
-                  name="video-upload"
-                  type="file"
-                  className="sr-only"
-                  accept="video/*"
-                  onChange={handleVideoChange}
-                />
-              </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Video Input */}
+            <div>
+              <label htmlFor="video-upload" className="block text-sm font-medium text-white/80 mb-2">
+                Food Video
+              </label>
+              <label htmlFor="video-upload" className="mt-1 flex justify-center px-5 pt-5 pb-6 border border-white/20 border-dashed rounded-xl cursor-pointer hover:border-white/40 transition-colors">
+                <div className="space-y-2 text-center w-full">
+                  {videoPreview ? (
+                    <video src={videoPreview} controls className="max-h-60 rounded-lg w-full"></video>
+                  ) : (
+                    <>
+                      <VideoUploadIcon />
+                      <p className="text-sm text-white/75">Upload a video</p>
+                      <p className="text-xs text-white/60">MP4, MOV, AVI up to 50MB</p>
+                    </>
+                  )}
+                </div>
+              </label>
+              <input
+                id="video-upload"
+                name="video-upload"
+                type="file"
+                className="sr-only"
+                accept="video/*"
+                onChange={handleVideoChange}
+              />
             </div>
-          </div>
 
-          {/* Food Name Input */}
-          <div>
-            <label htmlFor="food-name" className="block text-sm font-medium text-gray-300">
-              Name
-            </label>
-            <input
-              type="text"
-              id="food-name"
-              value={foodName}
-              onChange={(e) => setFoodName(e.target.value)}
-              placeholder="e.g., Spicy Ramen"
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-300"
-            />
-          </div>
+            {/* Food Name Input */}
+            <div>
+              <label htmlFor="food-name" className="block text-sm font-medium text-white/80">
+                Name
+              </label>
+              <input
+                type="text"
+                id="food-name"
+                value={foodName}
+                onChange={(e) => setFoodName(e.target.value)}
+                placeholder="e.g., Spicy Ramen"
+                className="mt-2 block w-full rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/50 py-3 px-3 focus:outline-none focus:ring-2 focus:ring-white/40"
+              />
+            </div>
 
-          {/* Description Input */}
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-300">
-              Description
-            </label>
-            <textarea
-              id="description"
-              rows="3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="A short description of the food..."
-              className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-300"
-            ></textarea>
-          </div>
+            {/* Description Input */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-white/80">
+                Description
+              </label>
+              <textarea
+                id="description"
+                rows="3"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="A short description of the food..."
+                className="mt-2 block w-full rounded-lg bg-white/10 border border-white/15 text-white placeholder-white/50 py-3 px-3 focus:outline-none focus:ring-2 focus:ring-white/40"
+              ></textarea>
+            </div>
 
-          {/* Submit Button */}
-          <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition-transform transform hover:scale-105 duration-300"
-            >
-              Add Food
-            </button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div>
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 shadow-lg active:scale-[.99] transition-transform"
+              >
+                Add Food
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

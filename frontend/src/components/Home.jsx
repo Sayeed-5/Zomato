@@ -12,7 +12,7 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
 
   return (
     // Each reel is a full-screen container with snap-start for scrolling
-    <div className="relative w-screen h-screen snap-start flex items-center justify-center bg-black">
+    <div className="relative w-full h-full snap-start flex items-center justify-center bg-black rounded-none md:rounded-2xl overflow-hidden">
       {/* The video element autoplays, is muted, and loops */}
       <video
         className="w-full h-full object-cover"
@@ -72,17 +72,20 @@ function Home() {
       `}</style>
       {/* themed gradient background wrapper */}
       <div className="min-h-screen w-screen bg-gradient-to-b from-gray-900 via-gray-900/95 to-black text-white">
-        {/* Main container for the reels feed */}
-        <main className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory">
-          {videos.map((item) => (
-            <Reel
-              key={item._id}
-              videoUrl={item.video}
-              description={item.description}
-              storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
-            />
-          ))}
-        </main>
+        {/* Main container for the reels feed (mobile-first width) */}
+        <div className="mx-auto w-full max-w-md">
+          <main className="h-screen overflow-y-scroll snap-y snap-mandatory">
+            {videos.map((item) => (
+              <div key={item._id} className="h-screen">
+                <Reel
+                  videoUrl={item.video}
+                  description={item.description}
+                  storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
+                />
+              </div>
+            ))}
+          </main>
+        </div>
 
         {/* bottom nav */}
         <BottomNav />
