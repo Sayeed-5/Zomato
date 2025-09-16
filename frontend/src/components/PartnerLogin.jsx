@@ -40,7 +40,7 @@ const PartnerLogin = ({ setView }) => {
       password
     },{ withCredentials: true})
 
-    console.log(response.data)
+    //console.log(response.data)
 
     navigate('/create-food');
   }

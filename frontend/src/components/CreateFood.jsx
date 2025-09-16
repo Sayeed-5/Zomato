@@ -52,7 +52,7 @@ function CreateFood() {
 
     // Send POST request to backend API
     const response = await axios.post('http://localhost:3000/api/food', formData, { withCredentials: true })
-    console.log(response.data);
+    //console.log(response.data);
     
     alert(`Food "${foodName}" added successfully!`);
     navigate('/');
