@@ -1,6 +1,8 @@
 import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import ActionBar from './ActionBar';
+import BottomNav from './BottomNav';
 
 // This component renders a single video reel with its overlay content.
 const Reel = ({ videoUrl, description, storeUrl }) => {
@@ -22,23 +24,23 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
         preload='metadata'
       ></video>
 
+      {/* right vertical interaction bar */}
+      <div className="absolute right-3 bottom-28 md:bottom-32">
+        <ActionBar />
+      </div>
+
       {/* Overlay for description and button */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 pb-8 text-white bg-gradient-to-t from-black/60 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-6 pb-24 text-white bg-gradient-to-t from-black/60 to-transparent">
         {/* Description with two-line truncation */}
         <p className="text-sm font-light mb-4 line-clamp-2">
           {description}
         </p>
-        
         {/* "Visit Store" button */}
         <button
-        
-          className="w-full bg-white text-black font-bold text-center py-3 rounded-lg text-md hover:bg-gray-200 transition-colors duration-300"
+          className="w-full font-bold text-center py-3 rounded-lg text-md transition-colors duration-300 backdrop-blur-md bg-white/20 dark:bg-black/20 text-white hover:bg-white/30 dark:hover:bg-black/30"
         >
           <Link className="reel-btn" to={storeUrl} aria-label="Visit store">Visit store</Link>
         </button>
-        
-          
-
       </div>
     </div>
   );
@@ -68,18 +70,23 @@ function Home() {
           overflow: hidden;
         }
       `}</style>
-      
-      {/* Main container for the reels feed */}
-      <main className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory">
-        {videos.map((item) => (
-          <Reel
-            key={item._id}
-            videoUrl={item.video}
-            description={item.description}
-            storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
-          />
-        ))}
-      </main>
+      {/* themed gradient background wrapper */}
+      <div className="min-h-screen w-screen bg-gradient-to-b from-gray-900 via-gray-900/95 to-black text-white">
+        {/* Main container for the reels feed */}
+        <main className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory">
+          {videos.map((item) => (
+            <Reel
+              key={item._id}
+              videoUrl={item.video}
+              description={item.description}
+              storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
+            />
+          ))}
+        </main>
+
+        {/* bottom nav */}
+        <BottomNav />
+      </div>
     </>
   );
 }
