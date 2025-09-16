@@ -16,6 +16,10 @@ const foodSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FoodPartner',
     },
+    likesCount : {
+        type : Number,
+        default : 0
+    }
 }, { timestamps : true}) 
 
 module.exports = mongoose.model('Food', foodSchema);
