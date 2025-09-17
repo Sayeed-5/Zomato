@@ -57,10 +57,12 @@ const saveFoodItem = async (req, res) => {
     const existingSave = await saveSchema.findOne({ user: user._id, food: foodId });
     if (existingSave) {
         await saveSchema.deleteOne({ user: user._id, food: foodId });
+        await foodSchema.findByIdAndUpdate(foodId, { $inc: { savesCount: -1 } });
         return res.status(200).json({ message: 'Food item unsaved successfully' });
     }
 
     const save = await saveSchema.create({ user: user._id, food: foodId });
+    await foodSchema.findByIdAndUpdate(foodId, { $inc: { savesCount: 1 } });
     res.status(201).json({ message: 'Food item saved successfully', save });
 
 }

@@ -5,11 +5,9 @@ import ActionBar from './ActionBar';
 
 // This component renders a single video reel with its overlay content.
 const Reel = ({ videoUrl, description, storeUrl }) => {
-  // const handleVisitStore = () => {
-  //   console.log(`Navigating to store: ${storeUrl}`);
-  // };
 
   return (
+    
     // Each reel is a full-screen container with snap-start for scrolling
     <div className="relative w-full h-full snap-start flex items-center justify-center bg-black rounded-none md:rounded-2xl overflow-hidden">
       {/* The video element autoplays, is muted, and loops */}

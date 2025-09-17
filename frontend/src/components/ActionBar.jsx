@@ -14,7 +14,7 @@ const IconButton = ({ label, children, onClick }) => (
 
 const ActionBar = ({ likes = 120, comments = 34, saves = 18 }) => {
   return (
-    <div className="flex flex-col items-center gap-3 p-2 rounded-2xl shadow-lg backdrop-blur-md bg-white/20 dark:bg-black/20">
+    <div className="flex flex-col items-center mb-15 gap-3 p-2 rounded-2xl shadow-lg backdrop-blur-md bg-white/20 dark:bg-black/20">
       <div className="flex flex-col items-center">
         <IconButton label="Like" onClick={() => {}}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
