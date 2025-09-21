@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ActionBar from './ActionBar';
 
 // This component renders a single video reel with its overlay content.
-const Reel = ({ videoUrl, description, storeUrl }) => {
+const Reel = ({ videoUrl, description, storeUrl, foodId, likesCount = 0, commentsCount = 0, savesCount = 0, userLiked = false, userSaved = false }) => {
 
   return (
     
@@ -23,7 +23,14 @@ const Reel = ({ videoUrl, description, storeUrl }) => {
 
       {/* right vertical interaction bar */}
       <div className="absolute right-3 bottom-28 md:bottom-32">
-        <ActionBar />
+        <ActionBar
+          foodId={foodId}
+          initialLikes={likesCount}
+          initialComments={commentsCount}
+          initialSaves={savesCount}
+          initiallyLiked={userLiked}
+          initiallySaved={userSaved}
+        />
       </div>
 
       {/* Overlay for description and button */}
@@ -72,15 +79,28 @@ function Home() {
         {/* Main container for the reels feed (mobile-first width) */}
         <div className="mx-auto w-full max-w-md">
           <main className="h-screen overflow-y-scroll snap-y snap-mandatory">
-            {videos.map((item) => (
-              <div key={item._id} className="h-screen">
-                <Reel
-                  videoUrl={item.video}
-                  description={item.description}
-                  storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
-                />
-              </div>
-            ))}
+            {videos.map((item) => {
+              const likesCount = item?.likesCount ?? (Array.isArray(item?.likes) ? item.likes.length : item?.likes) ?? 0;
+              const savesCount = item?.savesCount ?? (Array.isArray(item?.saves) ? item.saves.length : item?.saves) ?? 0;
+              const commentsCount = item?.commentsCount ?? (Array.isArray(item?.comments) ? item.comments.length : item?.comments) ?? 0;
+              const userLiked = item?.userLiked ?? item?.liked ?? item?.isLiked ?? false;
+              const userSaved = item?.userSaved ?? item?.saved ?? item?.isSaved ?? false;
+              return (
+                <div key={item._id} className="h-screen">
+                  <Reel
+                    videoUrl={item.video}
+                    description={item.description}
+                    storeUrl={`/partner-profile/${item.foodPartner}`} // Dynamic store URL
+                    foodId={item._id}
+                    likesCount={Number(likesCount) || 0}
+                    commentsCount={Number(commentsCount) || 0}
+                    savesCount={Number(savesCount) || 0}
+                    userLiked={!!userLiked}
+                    userSaved={!!userSaved}
+                  />
+                </div>
+              )
+            })}
           </main>
         </div>
       </div>
